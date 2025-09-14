@@ -38,3 +38,23 @@ REPARACIONES Y CAMBIOS REALIZADOS PARA EMPAQUETADO EXITOSO (2025)
 Esto eliminará la advertencia y reducirá el riesgo de problemas con módulos nativos en el futuro.
 
 Si necesitas más detalles de algún cambio, consulta este archivo o pide ayuda aquí.
+
+---
+
+6. Correcciones de rutas de módulos y configuración global (2025-09-13):
+   - Problema: La aplicación fallaba al empaquetarse con el error "Cannot find module" y "TypeError: Cannot read properties of undefined (reading 'enableHistorySave')".
+   - Causa 1: Las rutas relativas a los módulos en `server.js` no se resolvían correctamente dentro del archivo `app.asar` de Electron.
+   - Causa 2: La carpeta `src` no estaba incluida en la configuración de empaquetado de Electron (`build.files` en `package.json`), lo que impedía que los módulos se incluyeran en el paquete final.
+   - Causa 3: La clase `UserDataManager` en `src/server/dataManager.js` no recibía el objeto `globalSettings` en su constructor, lo que causaba un `TypeError` al intentar acceder a sus propiedades.
+
+   - Solución 1 (server.js): Se modificaron todas las llamadas `require()` en `server.js` para usar `path.join(__dirname, ...)` y construir rutas absolutas a los módulos (`dataManager`, `sniffer`, `api`, `packet`) y al archivo `settings.json`.
+   - Solución 2 (package.json): Se añadió `src/**/*` a la sección `build.files` en `package.json` para asegurar que todos los archivos de la carpeta `src` se incluyan en el paquete final de Electron.
+   - Solución 3 (src/server/dataManager.js y server.js):
+     - En `src/server/dataManager.js`:
+       - El constructor de `UserDataManager` fue modificado para aceptar `globalSettings` como un parámetro y almacenarlo en `this.globalSettings`.
+       - Las rutas `cacheFilePath` y `playerMapPath` se ajustaron para usar `path.join(__dirname, '..', '..', 'users.json')` y `path.join(__dirname, '..', '..', 'player_map.json')` para ser absolutas.
+       - Todas las llamadas internas a métodos como `saveAllUserData`, `addLog`, `clearAll` y `checkTimeoutClear` dentro de `UserDataManager` se actualizaron para usar `this.globalSettings` en lugar de esperar `globalSettings` como un argumento.
+     - En `server.js`:
+       - La instanciación de `UserDataManager` se actualizó para pasar el objeto `globalSettings` global al constructor: `new UserDataManager(logger, globalSettings)`.
+
+   - Resultado: La aplicación ahora debería empaquetarse y ejecutarse correctamente, resolviendo los errores de `MODULE_NOT_FOUND` y `TypeError`.

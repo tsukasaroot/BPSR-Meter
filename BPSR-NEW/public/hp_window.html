@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>血条监控 - 星痕共鸣</title>
+        <script src="./socket.io.min.js"></script>
+        <link rel="stylesheet" href="./css/hp_window.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="header-left">
+                    <div class="title">🩸 血条监控</div>
+                    <div class="subtitle" id="playerCount">等待数据连接...</div>
+                </div>
+
+                <div class="header-center">
+                    <div class="controls">
+                        <button class="btn active" id="sortHpBtn" onclick="setSortMode('hp')">💚 按血量</button>
+                        <button class="btn" id="sortNameBtn" onclick="setSortMode('name')">🏷️ 按姓名</button>
+                        <button class="btn" id="sortDpsBtn" onclick="setSortMode('dps')">⚔️ 按DPS</button>
+                        <button class="btn" id="sortHpsBtn" onclick="setSortMode('hps')">🩹 按HPS</button>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="connection-status status-connecting" id="connectionStatus">🔄 连接中</div>
+                </div>
+            </div>
+
+            <div class="hp-grid" id="playerGrid">
+                <div class="no-data">
+                    <div>🔄 正在连接服务器...</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/hp_window.js"></script>
+    </body>
+</html>

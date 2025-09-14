@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Star Resonance - Datos de Combate Históricos</title>
+        <script src="echarts.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
+
+    <body>
+        <!-- Ventana modal de estadísticas de habilidades -->
+        <div id="skillModal" class="skill-modal">
+            <div class="skill-modal-content" style="max-width: 70vw; max-height: 95vh; margin: 2% auto">
+                <div class="skill-modal-header" style="padding: 0px 25px">
+                    <h2 class="skill-modal-title">
+                        <i class="icon">📊</i>
+                        <span id="skillUserName">Estadísticas de Participación de Habilidades</span>
+                    </h2>
+                    <span class="skill-modal-close" onclick="closeSkillModal()">&times;</span>
+                </div>
+                <div class="skill-modal-body" style="max-height: calc(95vh - 110px)">
+                    <div class="skill-user-info">
+                        <div class="skill-user-info-item">
+                            <div class="skill-user-info-label">ID de Usuario</div>
+                            <div class="skill-user-info-value" id="skillUserId">-</div>
+                        </div>
+                        <div class="skill-user-info-item">
+                            <div class="skill-user-info-label">Apodo del Personaje</div>
+                            <div class="skill-user-info-value" id="skillUserNickname">-</div>
+                        </div>
+                        <div class="skill-user-info-item">
+                            <div class="skill-user-info-label">Clase</div>
+                            <div class="skill-user-info-value" id="skillUserProfession">-</div>
+                        </div>
+                        <div class="skill-user-info-item">
+                            <div class="skill-user-info-label">Puntuación de Poder</div>
+                            <div class="skill-user-info-value" id="fightPoint">-</div>
+                        </div>
+                        <div class="skill-user-info-item">
+                            <div class="skill-user-info-label">HP Máximo</div>
+                            <div class="skill-user-info-value" id="maxHp">-</div>
+                        </div>
+                        <div class="skill-user-info-item">
+                            <div class="skill-user-info-label">Cantidad de Habilidades</div>
+                            <div class="skill-user-info-value" id="skillCount">-</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-stats-container">
+                        <div class="skill-chart-container" id="skillDamageChart"></div>
+                        <div class="skill-chart-container" id="skillCritChart"></div>
+                    </div>
+
+                    <div class="skill-table-container">
+                        <table class="skill-table" id="skillTable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre de Habilidad</th>
+                                    <th>Tipo</th>
+                                    <th>Elemento</th>
+                                    <th>Valor Total</th>
+                                    <th>Usos</th>
+                                    <th>Tasa de Crítico</th>
+                                    <th>Tasa de Suerte</th>
+                                    <th>Valor Crítico</th>
+                                    <th>Valor Normal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="skillTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="chooseTime" style="margin-right: 10px; font-weight: bold">Tiempo:</label>
+            <select
+                id="chooseTime"
+                onchange="updateTimeStamp()"
+                style="margin-right: 10px; padding: 8px 12px; font-size: 14px; border-radius: 5px; border: 1px solid #ddd; background-color: white"
+            ></select>
+            <label for="sortSelect" style="margin-right: 10px; font-weight: bold">Ordenar por:</label>
+            <select
+                id="sortSelect"
+                onchange="updateSortMode()"
+                style="padding: 8px 12px; font-size: 14px; border-radius: 5px; border: 1px solid #ddd; background-color: white"
+            >
+                <option value="uid">Ordenar por UID (Ascendente)</option>
+                <option value="fightPoint">Ordenar por Puntuación (Descendente)</option>
+                <option value="takenDamage">Ordenar por Daño Recibido (Descendente)</option>
+                <option value="damage">Ordenar por Daño Total (Descendente)</option>
+                <option value="dps">Ordenar por DPS Total (Descendente)</option>
+                <option value="realtimeDpsMax">Ordenar por DPS Instantáneo Máximo (Descendente)</option>
+                <option value="healing">Ordenar por Curación Total (Descendente)</option>
+                <option value="hps">Ordenar por HPS Total (Descendente)</option>
+                <option value="realtimeHpsMax">Ordenar por HPS Instantáneo Máximo (Descendente)</option>
+                <option value="hp_min">Ordenar por HP Restante (Ascendente)</option>
+            </select>
+        </div>
+        <!-- Control de visualización de grupo de datos -->
+        <div class="data-group-controls">
+            <button id="damageGroupBtn" class="data-group-button active" onclick="toggleDataGroup('damage')">⚔️ Daño y DPS</button>
+            <button id="healingGroupBtn" class="data-group-button" onclick="toggleDataGroup('healing')">❤️ Curación y HPS</button>
+            <button id="allGroupBtn" class="data-group-button" onclick="toggleDataGroup('all')">📊 Todos los Datos</button>
+            <button id="hideInactiveBtn" class="data-group-button" onclick="toggleHideInactiveUsers()">👀 Ocultar Inactivos</button>
+            <button class="data-group-button" onclick="openColumnSettings()">⚙️ Configuración de Tabla</button>
+            <button class="data-group-button" onclick="downloadFightLog()">📥 Descargar Registro de Combate</button>
+        </div>
+        <div class="table-container" style="max-height: calc(100vh - 140px)">
+            <table id="damageTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" title="Identificador único del personaje">ID de Personaje</th>
+                        <th rowspan="2" title="Apodo del personaje/Apodo personalizado">Apodo del Personaje</th>
+                        <th rowspan="2" title="Clase del personaje">Clase</th>
+                        <th rowspan="2" title="Puntuación del personaje">Puntuación</th>
+                        <th rowspan="2" title="HP del personaje">HP</th>
+                        <th rowspan="2" title="Daño recibido por el personaje en combate">Daño Recibido</th>
+                        <th rowspan="2" title="Número de muertes del personaje en combate">Muertes</th>
+                        <th rowspan="2" title="Proporción de golpes críticos del personaje en combate respecto al total de golpes">
+                            Tasa de Crítico
+                        </th>
+                        <th rowspan="2" title="Proporción de golpes de suerte del personaje en combate respecto al total de golpes">
+                            Tasa de Suerte
+                        </th>
+                        <th class="damage-main-col" colspan="4">Daño</th>
+                        <th class="damage-simple-col" style="display: none" colspan="1">Daño</th>
+                        <th class="dps-col" colspan="3">DPS</th>
+                        <th class="healing-main-col" colspan="4">Curación</th>
+                        <th class="healing-simple-col" style="display: none" colspan="1">Curación</th>
+                        <th class="hps-col" colspan="3">HPS</th>
+                        <th rowspan="2">Acciones</th>
+                    </tr>
+                    <tr>
+                        <th class="damage-cols" title="Daño total infligido por el personaje en combate">Daño Total</th>
+                        <th class="damage-detail-cols" title="Daño crítico no afortunado infligido por el personaje en combate">Crítico Puro</th>
+                        <th class="damage-detail-cols" title="Daño afortunado no crítico infligido por el personaje en combate">Suerte Pura</th>
+                        <th class="damage-detail-cols" title="Daño crítico afortunado infligido por el personaje en combate">Crítico Suerte</th>
+                        <th class="dps-cols" title="Daño infligido por el personaje en el último segundo de combate">DPS Instantáneo</th>
+                        <th class="dps-cols" title="DPS instantáneo máximo del personaje en combate">Máx. Instantáneo</th>
+                        <th
+                            class="dps-cols"
+                            title="DPS total del personaje en combate (calculado usando el tiempo entre la primera y la última habilidad como tiempo de combate efectivo)"
+                        >
+                            DPS Total
+                        </th>
+                        <th class="healing-cols" title="Cantidad total de curación realizada por el personaje en combate">Curación Total</th>
+                        <th class="healing-detail-cols" title="Cantidad de curación crítica no afortunada realizada por el personaje en combate">
+                            Crítico Puro
+                        </th>
+                        <th class="healing-detail-cols" title="Cantidad de curación afortunada no crítica realizada por el personaje en combate">
+                            Suerte Pura
+                        </th>
+                        <th class="healing-detail-cols" title="Cantidad de curación crítica afortunada realizada por el personaje en combate">
+                            Crítico Suerte
+                        </th>
+                        <th class="hps-cols" title="Cantidad de daño y curación realizada por el personaje en el último segundo de combate">
+                            HPS Instantáneo
+                        </th>
+                        <th class="hps-cols" title="HPS instantáneo máximo del personaje en combate">Máx. Instantáneo</th>
+                        <th
+                            class="hps-cols"
+                            title="HPS total del personaje en combate (calculado usando el tiempo entre la primera y la última habilidad como tiempo de combate efectivo)"
+                        >
+                            HPS Total
+                        </th>
+                    </tr>
+                </thead>
+                <div class="no-data">🕗 Por favor, seleccione la hora correcta para obtener los datos</div>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <script src="./js/history.js"></script>
+
+        <!-- 列设置弹窗 -->
+        <div id="columnSettingsModal" class="column-settings-modal">
+            <div class="column-settings-content">
+                <div class="column-settings-header">
+                    <div class="column-settings-title">⚙️ Configuración de Tabla</div>
+                    <button class="close-btn" onclick="closeColumnSettings()">&times;</button>
+                </div>
+
+                <!-- 内容将通过 JavaScript 动态生成 -->
+            </div>
+        </div>
+    </body>
+</html>
