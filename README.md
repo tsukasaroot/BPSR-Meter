@@ -35,9 +35,10 @@ BPSR Meter es una aplicación de escritorio que funciona como un medidor de DPS 
 
 ## Instalación
 
-1.  **Descargar el instalador:** Ve a la sección de "Releases" de este repositorio de GitHub y descarga la última versión del instalador (`BPSR Meter Setup X.X.X.exe`).
-2.  **Ejecutar el instalador:** Ejecuta el archivo `.exe` descargado y sigue las instrucciones para instalar la aplicación en tu computadora.
-3.  **Instalar Npcap:** La aplicación requiere Npcap para capturar el tráfico de red del juego. Si no lo tienes instalado, ve a la sección de "Releases" de este repositorio de GitHub y descarga la última versión del instalador (`npcap-1.83.exe`).
+1. **Instalar Npcap:** La aplicación requiere Npcap para capturar el tráfico de red del juego. Si no lo tienes instalado, ve a la sección de "Releases" de este repositorio de GitHub y descarga la última versión del instalador (`npcap-1.83.exe`).
+2.  **Descargar el instalador:** Ve a la sección de "Releases" de este repositorio de GitHub y descarga la última versión del instalador (`BPSR Meter Setup X.X.X.exe`).
+3.  **Ejecutar el instalador:** Ejecuta el archivo `.exe` descargado y sigue las instrucciones para instalar la aplicación en tu computadora.
+
 
 ---
 
@@ -143,9 +144,10 @@ BPSR Meter is a desktop application that acts as a real-time DPS (Damage Per Sec
 
 ## Installation
 
-1.  **Download the installer:** Go to the "Releases" section of this GitHub repository and download the latest version of the installer (`BPSR Meter Setup X.X.X.exe`).
-2.  **Run the installer:** Execute the downloaded `.exe` file and follow the instructions to install the application on your computer.
-3.  **Install Npcap:** The application requires Npcap to capture the game's network traffic. If you don't have it installed, go to the "Releases" section of this GitHub repository and download the latest version of the installer (`npcap-1.83.exe`).
+1.  **Install Npcap:** The application requires Npcap to capture the game's network traffic. If you don't have it installed, go to the "Releases" section of this GitHub repository and download the latest version of the installer (`npcap-1.83.exe`).
+2.  **Download the installer:** Go to the "Releases" section of this GitHub repository and download the latest version of the installer (`BPSR Meter Setup X.X.X.exe`).
+3.  **Run the installer:** Execute the downloaded `.exe` file and follow the instructions to install the application on your computer.
+
 
 ---
 
