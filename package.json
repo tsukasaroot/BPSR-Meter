@@ -64,6 +64,7 @@
       "electron-main.js",
       "server.js",
       "preload.js",
+      "src/**/*",
       "algo/**/*",
       "public/**/*",
       "tables/**/*",

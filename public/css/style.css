@@ -1,0 +1,713 @@
+/* Botón Advanced/Lite: rectangular y alargado */
+.advanced-lite-btn {
+    border-radius: 18px !important;
+    width: 110px !important;
+    min-width: 90px;
+    height: 32px !important;
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255,255,255,0.13);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    margin: 0 2px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+}
+.advanced-lite-btn.lite {
+    background: rgba(40,40,40,0.45) !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    border: 1.5px solid rgba(255,255,255,0.18);
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+/* Barras Lite: 50% más altas, la mitad de largas, barra igual que Advanced */
+.lite-bar {
+    background: var(--bar-bg-color);
+    border-radius: 18px;
+    height: 31px; /* 30% más baja (44px * 0.70 = 30.8px) */
+    min-height: 31px;
+    max-height: 31px;
+    margin-bottom: 4px;
+    width: 60%; /* 10% más larga que antes */
+    min-width: 0;
+    max-width: 60%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.lite-bar-fill {
+    position: absolute;
+    left: 0; top: 0; height: 100%; border-radius: 18px;
+    transition: width 0.4s;
+    z-index: 1;
+}
+.lite-bar-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 8px;
+    padding: 0 12px 0 4px;
+}
+.lite-bar-values {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Ajustado a 20px para la separación mínima solicitada */
+    height: 100%;
+}
+.lite-bar-damage, .lite-bar-percent {
+    font-size: 1.08em;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.lite-bar-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+    margin-left: 4px;
+}
+.lite-bar-damage {
+    font-size: 0.90rem;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 0;
+    min-width: 60px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.lite-bar-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: 0 8px 0 0;
+    background: none;
+    display: block;
+}
+.lite-bar-percent {
+    font-size: 0.95rem;
+    color: #fff;
+    font-weight: 700;
+    min-width: 48px;
+    text-align: right;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    /* Eliminadas las propiedades de posicionamiento absoluto para evitar superposición */
+}
+:root {
+    --bg-color: transparent;
+    --bar-bg: rgba(13, 17, 23, 0.5);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --font-main: 'Inter', sans-serif;
+    --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --border-soft: 1px solid rgba(255, 255, 255, 0.1);
+    --text-shadow: 0 0 2px rgba(0, 0, 0, 0.7), 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.4;
+    margin: 0;
+    padding: 0; /* Eliminado el padding para evitar desbordamiento */
+    overflow-x: hidden; /* Ocultar solo la barra de desplazamiento horizontal */
+    overflow-y: hidden; /* Ocultar la barra de desplazamiento vertical */
+    border: none; /* Eliminado el borde de la ventana */
+    -webkit-app-region: no-drag; /* Deshabilita el arrastre por defecto en el body */
+}
+
+body.locked {
+    cursor: none; /* Ocultar el cursor cuando está bloqueado */
+    pointer-events: none; /* Ignorar eventos del ratón en el body */
+}
+body.locked.alt-pressed {
+    cursor: default; /* Mostrar el cursor cuando Alt está presionado y bloqueado */
+    pointer-events: all; /* Permitir eventos del ratón en el body cuando Alt está presionado y bloqueado */
+}
+
+body.locked #lock-button {
+    pointer-events: all; /* Permitir clics en el botón de candado incluso cuando está bloqueado */
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Inputs y botones en la parte superior */
+#guardar-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: var(--border-soft);
+    color: var(--text-primary);
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#guardar-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+input[type="text"] {
+    background: rgba(0, 0, 0, 0.2);
+    border: var(--border-soft);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.player-container > * {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+:root {
+    --bg-color: rgba(28, 30, 44, 0.95);
+    --bar-bg-color: rgba(28, 30, 44, 0.7);
+    --text-primary: #e0e0e0;
+    --text-secondary: #9ba3c7;
+    --font-main: 'Inter', sans-serif;
+    --gradient-primary: linear-gradient(90deg, rgba(219, 104, 121, 0.2), rgba(219, 104, 121, 0.8));
+    --gradient-secondary: linear-gradient(90deg, rgba(104, 142, 216, 0.2), rgba(104, 142, 216, 0.8));
+    --rank-default: linear-gradient(90deg, rgba(86, 95, 137, 0.2), rgba(86, 95, 137, 0.8));
+    --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --glow-effect: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.player-bar {
+    background: var(--bar-bg);
+    border: var(--border-soft);
+    border-radius: 6px;
+    margin-bottom: 4px;
+    height: 60px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background: rgba(219, 104, 121, 0.2);
+    transition: width 0.3s ease-out;
+}
+
+.bar-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 4px 8px;
+    gap: 4px;
+}
+
+.name-col {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinea los elementos al inicio */
+    padding-top: 4px; /* Pequeño padding superior para subir el nombre */
+    gap: 1px;
+    min-width: 120px;
+}
+
+.stats-col {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 85px;
+    margin-right: -8px; /* Truco: margen negativo para acercar el icono */
+    position: relative; /* Para mantener el z-index */
+    z-index: 1; /* Asegura que las stats estén sobre otros elementos */
+}
+
+.icon-col {
+    display: flex;
+    align-items: center;
+    min-width: auto;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.extra-col {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 110px;
+    margin-left: 2px;
+}
+
+.player-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px; /* Ajustado para subir el nombre */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+}
+
+.player-gear-score {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    margin-top: 1px;
+}
+
+.player-id {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.stats-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 16px;
+    white-space: nowrap;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    width: 28px;
+    text-align: left;
+    margin-left: 1px;
+}
+
+.stat-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    min-width: 40px;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.class-icon {
+    border: none;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+    filter: drop_shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+.stats-extra {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.stat-icon {
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    color: var(--text-secondary);
+}
+
+/* Ajustes de color del texto */
+:root {
+    --text-primary: #fff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+}
+
+.stat-icon {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    padding-left: 4px; /* Desplazar iconos ligeramente a la derecha */
+}
+
+.stat-icon .icon {
+    display: inline-block;
+    width: 12px;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+/* Nuevos estilos para la columna de estadísticas adicionales */
+.additional-stats-col {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100px; /* Ajustar el ancho según sea necesario */
+    margin-left: 2px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1); /* Separador visual */
+    padding-left: 8px;
+}
+
+.additional-stats-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.additional-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 16px;
+    white-space: nowrap;
+    position: relative; /* Para posicionar la barra de vida */
+}
+
+.additional-stat-icon {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    width: 16px;
+    text-align: center;
+    z-index: 2; /* Asegura que el icono esté sobre la barra */
+}
+
+.additional-stat-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    min-width: 40px;
+    text-align: right;
+    z-index: 2; /* Asegura que el texto esté sobre la barra */
+    position: relative;
+}
+
+.hp-bar-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: rgba(17, 17, 17, 0.699); /* Fondo de la barra */
+    border-radius: 6px;
+    width: 130%;
+    z-index: 1; /* Detrás del texto y el icono */
+    overflow: hidden;
+}
+
+.hp-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    transition: width 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+.stat-icon span {
+    min-width: 1.2em;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.class-icon {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+    transform: scale(1.2);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.dps-meter { width: 650px; background-color: transparent; padding: 4px 8px; } /* Ancho fijo */
+.controls {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 2px;
+    padding-left: 8px;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    gap: 10px;
+}
+#diccionario-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 0 auto;
+}
+#diccionario-form input, #diccionario-form button {
+    height: 32px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0,0,0,0.3);
+    color: var(--text-primary);
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+#input-id, #input-nombre {
+    width: 80px;
+    min-width: 0;
+    text-align: center;
+}
+#guardar-btn {
+    background: #4a4e69;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 600;
+}
+#guardar-btn:hover {
+    background: #6a6e9a;
+}
+.control-button { width: 32px; height: 32px; background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50%; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; -webkit-app-region: no-drag; }
+#reset-button { background-color: rgba(219, 104, 121, 0.5); }
+#reset-button:hover { background-color: rgba(219, 104, 121, 0.7); }
+
+.drag-indicator {
+    /* Posición relativa para que esté al lado del botón de cerrar */
+    position: relative;
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 123, 255, 0.5); /* Azul */
+    border: 1px solid rgba(0, 123, 255, 0.7);
+    border-radius: 50%; /* Hacerlo circular como los otros botones */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 0.9rem; /* Tamaño de fuente como los otros botones */
+    cursor: grab;
+    -webkit-app-region: drag; /* Permite arrastrar la ventana desde este elemento */
+}
+.drag-indicator:active {
+    cursor: grabbing;
+}
+#close-button {
+    background-color: rgba(220, 53, 69, 0.5); /* Rojo */
+    border: 1px solid rgba(220, 53, 69, 0.7);
+    -webkit-app-region: no-drag; /* Asegurarse de que el botón de cerrar no arrastre la ventana */
+}
+#close-button:hover {
+    background-color: rgba(220, 53, 69, 0.7);
+}
+#close-button {
+    background-color: rgba(220, 53, 69, 0.5); /* Rojo */
+    border: 1px solid rgba(220, 53, 69, 0.7);
+}
+#close-button:hover {
+    background-color: rgba(220, 53, 69, 0.7);
+}
+
+.sync-button {
+    width: 29px;
+    height: 29px;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* Los estilos de posición se moverán al inline style en el HTML */
+}
+
+.sync-button:hover {
+    background-color: rgba(0,0,0,0.2); /* No cambiar al pasar el ratón si no es un botón */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.sync-icon {
+    font-size: 0.9rem; /* Tamaño del icono */
+    display: block; /* Mostrar por defecto */
+    color: #00aaff; /* Color azul para el icono */
+}
+
+.sync-icon.spinning {
+    animation: spin 1s linear infinite;
+}
+
+.sync-timer {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: none; /* Ocultar por defecto */
+    text-align: center;
+    line-height: 1;
+}
+
+.dps-timer-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+.timer-btn {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    background: #444b5a;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    max-width: 180px;
+}
+.timer-btn:hover {
+    background: #5a5f73;
+}
+.timer-btn i {
+    margin-right: 5px;
+}
+#player-bars-container { display: flex; flex-direction: column; gap: 8px; }
+.player-bar { background-color: var(--bar-bg-color); border-radius: 8px; height: 55px; position: relative; overflow: hidden; }
+.progress-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 8px; transition: width 0.4s ease-out; z-index: 1; }
+.player-bar[data-rank="1"] .progress-fill { background-color: var(--rank-1-color); }
+.player-bar[data-rank="2"] .progress-fill { background-color: var(--rank-2-color); }
+.player-bar[data-rank="3"] .progress-fill { background-color: var(--rank-3-color); }
+.player-bar[data-rank="4"] .progress-fill { background-color: var(--rank-4-color); }
+.player-bar[data-rank-default] .progress-fill { background-color: var(--rank-default-color); }
+.bar-content { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; height: 100%; }
+.player-info { display: flex; flex-direction: column; justify-content: center; }
+.player-name { font-size: 1rem; font-weight: 700; min-height: 1.2em; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-id { font-size: 0.75rem; color: var(--text-secondary); }
+.player-performance { display: flex; align-items: center; gap: 10px; }
+/* Contenedor para la lista de estadísticas */
+.stats-list { display: flex; flex-direction: column; align-items: flex-end; }
+/* Estilo para la estadística principal (más grande y con el porcentaje) */
+.main-stat { font-size: 0.9rem; font-weight: 700; }
+.main-stat .percentage { font-size: 0.8rem; color: var(--text-secondary); margin-left: 5px; }
+/* Estilo para las estadísticas secundarias (más pequeñas) */
+.secondary-stat { font-size: 0.75rem; color: var(--text-secondary); }
+#loading-indicator {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-size: 2.5rem; /* Tamaño del icono */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Altura para centrar el icono */
+}
+
+#loading-indicator .fa-spinner {
+    animation: spin 1.5s linear infinite; /* Animación de giro */
+}
+
+/* Trucos para acercar elementos a la izquierda */
+#reset-button {
+    margin-left: -4px;
+}
+#logs-section {
+    margin-left: -4px;
+    margin-right: -4px;
+}
+
+.footer {
+    text-align: center;
+    padding: 15px 0 10px 0;
+    margin-top: 10px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    text-shadow: var(--text-shadow);
+}
+
+.social-icons a {
+    color: var(--text-primary);
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+    text-shadow: var(--text-shadow);
+}
+
+.social-icons a:hover {
+    color: #db6879;
+}
+
+/* Estilos para el botón de Análisis de Habilidades */
+.skill-analysis-button {
+    position: absolute;
+    left: 0px; /* Ajustar según sea necesario para la separación */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; /* Tamaño del botón */
+    height: 30px;
+    background-color: rgba(0, 123, 255, 0.6); /* Un color azul sutil */
+    border: 1px solid rgba(0, 123, 255, 0.8);
+    border-radius: 50%; /* Circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 3; /* Asegurarse de que esté por encima de la barra */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.skill-analysis-button:hover {
+    background-color: rgba(0, 123, 255, 0.8);
+    border-color: rgba(0, 123, 255, 1);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.skill-analysis-button i {
+    color: #fff;
+    font-size: 0.9rem;
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+}
+
+/* Ajustes para el contenido de la barra para dejar espacio al botón */
+.player-bar .bar-content {
+    padding-left: 38px; /* Ajustar para dejar espacio al botón (ancho del botón + margen) */
+}
+
+.lite-bar .lite-bar-content {
+    padding-left: 38px; /* Ajustar para dejar espacio al botón (ancho del botón + margen) */
+}
