@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const {contextBridge, ipcRenderer} = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
     setWindowMovable: (movable) => ipcRenderer.send('set-window-movable', movable),

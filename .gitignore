@@ -14,3 +14,9 @@ dist/logs/
 /Prerequisites/npcap-1.83.exe
 pnpm-lock.yaml
 server - copia - copia.js
+.idea/workspace.xml
+
+dist
+dist_electron
+.idea
+package-lock.json
