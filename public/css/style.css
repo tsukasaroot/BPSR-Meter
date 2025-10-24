@@ -4,12 +4,12 @@
     width: 110px !important;
     min-width: 90px;
     height: 32px !important;
-    background: rgba(255,255,255,0.10);
+    background: rgba(255, 255, 255, 0.10);
     color: #fff;
     font-weight: 600;
     font-size: 0.95rem;
-    border: 1px solid rgba(255,255,255,0.13);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     margin: 0 2px;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
@@ -18,14 +18,16 @@
     justify-content: center;
     padding: 0 18px;
 }
+
 .advanced-lite-btn.lite {
-    background: rgba(40,40,40,0.45) !important;
+    background: rgba(40, 40, 40, 0.45) !important;
     color: #fff !important;
     font-weight: bold !important;
-    border: 1.5px solid rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
     letter-spacing: 0.5px;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.18);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
 }
+
 /* Barras Lite: 50% más altas, la mitad de largas, barra igual que Advanced */
 .lite-bar {
     background: var(--bar-bg-color);
@@ -41,15 +43,20 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
-    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
 .lite-bar-fill {
     position: absolute;
-    left: 0; top: 0; height: 100%; border-radius: 18px;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 18px;
     transition: width 0.4s;
     z-index: 1;
 }
+
 .lite-bar-content {
     position: relative;
     z-index: 2;
@@ -60,12 +67,14 @@
     gap: 8px;
     padding: 0 12px 0 4px;
 }
+
 .lite-bar-values {
     display: flex;
     align-items: center;
     gap: 20px; /* Ajustado a 20px para la separación mínima solicitada */
     height: 100%;
 }
+
 .lite-bar-damage, .lite-bar-percent {
     font-size: 1.08em;
     font-weight: 700;
@@ -74,6 +83,7 @@
     align-items: center;
     white-space: nowrap;
 }
+
 .lite-bar-name {
     font-size: 0.95rem;
     font-weight: 600;
@@ -84,6 +94,7 @@
     max-width: 110px;
     margin-left: 4px;
 }
+
 .lite-bar-damage {
     font-size: 0.90rem;
     color: #fff;
@@ -95,6 +106,7 @@
     align-items: center;
     gap: 2px;
 }
+
 .lite-bar-icon {
     width: 28px;
     height: 28px;
@@ -104,6 +116,7 @@
     background: none;
     display: block;
 }
+
 .lite-bar-percent {
     font-size: 0.95rem;
     color: #fff;
@@ -115,6 +128,7 @@
     align-items: center;
     /* Eliminadas las propiedades de posicionamiento absoluto para evitar superposición */
 }
+
 :root {
     --bg-color: transparent;
     --bar-bg: rgba(13, 17, 23, 0.5);
@@ -126,6 +140,8 @@
     --text-shadow: 0 0 2px rgba(0, 0, 0, 0.7), 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
+::-webkit-scrollbar { display: none; }
+
 body {
     background: transparent;
     color: var(--text-primary);
@@ -134,15 +150,17 @@ body {
     margin: 0;
     padding: 0; /* Eliminado el padding para evitar desbordamiento */
     overflow-x: hidden; /* Ocultar solo la barra de desplazamiento horizontal */
-    overflow-y: hidden; /* Ocultar la barra de desplazamiento vertical */
+    overflow-y: scroll; /* Ocultar la barra de desplazamiento vertical */
     border: none; /* Eliminado el borde de la ventana */
     -webkit-app-region: no-drag; /* Deshabilita el arrastre por defecto en el body */
+
 }
 
 body.locked {
     cursor: none; /* Ocultar el cursor cuando está bloqueado */
     pointer-events: none; /* Ignorar eventos del ratón en el body */
 }
+
 body.locked.alt-pressed {
     cursor: default; /* Mostrar el cursor cuando Alt está presionado y bloqueado */
     pointer-events: all; /* Permitir eventos del ratón en el body cuando Alt está presionado y bloqueado */
@@ -188,13 +206,20 @@ input[type="text"] {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .player-container > * {
     animation: fadeIn 0.3s ease-out forwards;
 }
+
 :root {
     --bg-color: rgba(28, 30, 44, 0.95);
     --bar-bg-color: rgba(28, 30, 44, 0.7);
@@ -458,8 +483,20 @@ input[type="text"] {
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
     transform: scale(1.2);
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-.dps-meter { width: 650px; background-color: transparent; padding: 4px 8px; } /* Ancho fijo */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dps-meter {
+    width: 650px;
+    background-color: transparent;
+    padding: 4px 8px;
+}
+
+/* Ancho fijo */
 .controls {
     display: flex;
     justify-content: flex-start;
@@ -472,39 +509,65 @@ input[type="text"] {
     z-index: 10;
     gap: 10px;
 }
+
 #diccionario-form {
     display: flex;
     gap: 8px;
     align-items: center;
     margin: 0 auto;
 }
+
 #diccionario-form input, #diccionario-form button {
     height: 32px;
     font-size: 1rem;
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0.3);
     color: var(--text-primary);
     padding: 0 8px;
     box-sizing: border-box;
 }
+
 #input-id, #input-nombre {
     width: 80px;
     min-width: 0;
     text-align: center;
 }
+
 #guardar-btn {
     background: #4a4e69;
     cursor: pointer;
     transition: background 0.2s;
     font-weight: 600;
 }
+
 #guardar-btn:hover {
     background: #6a6e9a;
 }
-.control-button { width: 32px; height: 32px; background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50%; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; -webkit-app-region: no-drag; }
-#reset-button { background-color: rgba(219, 104, 121, 0.5); }
-#reset-button:hover { background-color: rgba(219, 104, 121, 0.7); }
+
+.control-button {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    -webkit-app-region: no-drag;
+}
+
+#reset-button {
+    background-color: rgba(219, 104, 121, 0.5);
+}
+
+#reset-button:hover {
+    background-color: rgba(219, 104, 121, 0.7);
+}
 
 .drag-indicator {
     /* Posición relativa para que esté al lado del botón de cerrar */
@@ -522,21 +585,26 @@ input[type="text"] {
     cursor: grab;
     -webkit-app-region: drag; /* Permite arrastrar la ventana desde este elemento */
 }
+
 .drag-indicator:active {
     cursor: grabbing;
 }
+
 #close-button {
     background-color: rgba(220, 53, 69, 0.5); /* Rojo */
     border: 1px solid rgba(220, 53, 69, 0.7);
     -webkit-app-region: no-drag; /* Asegurarse de que el botón de cerrar no arrastre la ventana */
 }
+
 #close-button:hover {
     background-color: rgba(220, 53, 69, 0.7);
 }
+
 #close-button {
     background-color: rgba(220, 53, 69, 0.5); /* Rojo */
     border: 1px solid rgba(220, 53, 69, 0.7);
 }
+
 #close-button:hover {
     background-color: rgba(220, 53, 69, 0.7);
 }
@@ -544,7 +612,7 @@ input[type="text"] {
 .sync-button {
     width: 29px;
     height: 29px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     color: var(--text-primary);
@@ -556,12 +624,16 @@ input[type="text"] {
 }
 
 .sync-button:hover {
-    background-color: rgba(0,0,0,0.2); /* No cambiar al pasar el ratón si no es un botón */
+    background-color: rgba(0, 0, 0, 0.2); /* No cambiar al pasar el ratón si no es un botón */
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .sync-icon {
@@ -588,6 +660,7 @@ input[type="text"] {
     gap: 8px;
     justify-content: center;
 }
+
 .timer-btn {
     flex: 1;
     padding: 8px 0;
@@ -600,32 +673,121 @@ input[type="text"] {
     cursor: pointer;
     max-width: 180px;
 }
+
 .timer-btn:hover {
     background: #5a5f73;
 }
+
 .timer-btn i {
     margin-right: 5px;
 }
-#player-bars-container { display: flex; flex-direction: column; gap: 8px; }
-.player-bar { background-color: var(--bar-bg-color); border-radius: 8px; height: 55px; position: relative; overflow: hidden; }
-.progress-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 8px; transition: width 0.4s ease-out; z-index: 1; }
-.player-bar[data-rank="1"] .progress-fill { background-color: var(--rank-1-color); }
-.player-bar[data-rank="2"] .progress-fill { background-color: var(--rank-2-color); }
-.player-bar[data-rank="3"] .progress-fill { background-color: var(--rank-3-color); }
-.player-bar[data-rank="4"] .progress-fill { background-color: var(--rank-4-color); }
-.player-bar[data-rank-default] .progress-fill { background-color: var(--rank-default-color); }
-.bar-content { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; height: 100%; }
-.player-info { display: flex; flex-direction: column; justify-content: center; }
-.player-name { font-size: 1rem; font-weight: 700; min-height: 1.2em; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.player-id { font-size: 0.75rem; color: var(--text-secondary); }
-.player-performance { display: flex; align-items: center; gap: 10px; }
+
+#player-bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.player-bar {
+    background-color: var(--bar-bg-color);
+    border-radius: 8px;
+    height: 55px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.4s ease-out;
+    z-index: 1;
+}
+
+.player-bar[data-rank="1"] .progress-fill {
+    background-color: var(--rank-1-color);
+}
+
+.player-bar[data-rank="2"] .progress-fill {
+    background-color: var(--rank-2-color);
+}
+
+.player-bar[data-rank="3"] .progress-fill {
+    background-color: var(--rank-3-color);
+}
+
+.player-bar[data-rank="4"] .progress-fill {
+    background-color: var(--rank-4-color);
+}
+
+.player-bar[data-rank-default] .progress-fill {
+    background-color: var(--rank-default-color);
+}
+
+.bar-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    height: 100%;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.player-name {
+    font-size: 1rem;
+    font-weight: 700;
+    min-height: 1.2em;
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-id {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.player-performance {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* Contenedor para la lista de estadísticas */
-.stats-list { display: flex; flex-direction: column; align-items: flex-end; }
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 /* Estilo para la estadística principal (más grande y con el porcentaje) */
-.main-stat { font-size: 0.9rem; font-weight: 700; }
-.main-stat .percentage { font-size: 0.8rem; color: var(--text-secondary); margin-left: 5px; }
+.main-stat {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.main-stat .percentage {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: 5px;
+}
+
 /* Estilo para las estadísticas secundarias (más pequeñas) */
-.secondary-stat { font-size: 0.75rem; color: var(--text-secondary); }
+.secondary-stat {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
 #loading-indicator {
     text-align: center;
     padding: 20px;
@@ -645,6 +807,7 @@ input[type="text"] {
 #reset-button {
     margin-left: -4px;
 }
+
 #logs-section {
     margin-left: -4px;
     margin-right: -4px;
@@ -687,7 +850,7 @@ input[type="text"] {
     align-items: center;
     cursor: pointer;
     z-index: 3; /* Asegurarse de que esté por encima de la barra */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
 }
 
@@ -700,7 +863,7 @@ input[type="text"] {
 .skill-analysis-button i {
     color: #fff;
     font-size: 0.9rem;
-    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
 }
 
 /* Ajustes para el contenido de la barra para dejar espacio al botón */

@@ -1,52 +1,68 @@
 <!DOCTYPE html>
 <html lang="es-ES">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medidor DPS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Medidor DPS</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="dps-meter">
-        <header class="controls" style="width: 100%;">
-            <div style="position: relative; width: 32px; height: 32px; margin-right: 10px;"> <!-- Contenedor para el icono y el botón de sincronización -->
-                <img src="icon.png" alt="Logo" style="height: 32px; position: absolute; top: 0; left: 0;">
-                <div class="sync-button" id="sync-button" style="position: absolute; top: 1.5px; left: 1.5px; z-index: 11;"> <!-- Centrado sobre el icono -->
-                    <i class="fa-solid fa-arrows-rotate sync-icon"></i>
-                    <span class="sync-timer"></span>
-                </div>
-            </div>
-            <button class="control-button" id="reset-button" title="Reset" style="display: none;"><i class="fa-solid fa-arrows-rotate"></i></button>
-            <div id="dps-timer-btns" class="dps-timer-buttons" style="flex-grow: 1; justify-content: flex-end; display: none;">
-            </div>
-            <button class="control-button" id="zoom-in-button" title="Aumentar tamaño"><i class="fa-solid fa-plus"></i></button>
-            <!-- Botón de mover ventana (drag) -->
-            <div class="drag-indicator" id="drag-indicator" title="Mover ventana">
-                <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-            <button class="control-button" id="zoom-out-button" title="Reducir tamaño"><i class="fa-solid fa-minus"></i></button>
-            <!-- Botón Advanced/Lite -->
-        <button class="control-button advanced-lite-btn" id="advanced-lite-btn" title="Toggle Advanced/Lite">Advanced</button>
-        <!-- Botón DPS/Healer solo visible en modo Lite -->
-        <button class="control-button advanced-lite-btn" id="lite-dps-healer-btn" style="display:none;">DPS</button>
-            <!-- Botón de bloqueo/desbloqueo -->
-            <button class="control-button" id="lock-button" title="Bloquear posición" style="width: 32px; height: 32px; font-size: 0.9rem; margin-top: 0;"><i class="fa-solid fa-lock-open"></i></button>
-            <button class="control-button" id="close-button" title="Cerrar ventana" style="width: 32px; height: 32px; font-size: 0.9rem; margin-top: 0;"><i class="fa-solid fa-xmark"></i></button>
-        </header>
-        <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;">
-            <div id="dps-timer" style="text-align:center;font-size:1.2rem;font-weight:700;margin-top:4px;min-height:28px;color:#e0e0e0;display:none; text-shadow: var(--text-shadow);"></div>
-            <div id="logs-section" style="margin-top:8px;"></div>
-        </div>
-        <div id="loading-indicator">
-            <i class="fa-solid fa-spinner fa-spin"></i>
-        </div>
-        <main id="player-bars-container" style="margin-top: 40px; border: 1px solid rgba(255, 255, 255, 0.1); display: none;"></main>
-    </div>
+	<div class="dps-meter">
+		<header class="controls" style="width: 100%;">
+			<div style="position: relative; width: 32px; height: 32px; margin-right: 10px;">
+				<!-- Contenedor para el icono y el botón de sincronización -->
+				<img src="icon.png" alt="Logo" style="height: 32px; position: absolute; top: 0; left: 0;">
+				<div class="sync-button" id="sync-button"
+				     style="position: absolute; top: 1.5px; left: 1.5px; z-index: 11;">
+					<!-- Centrado sobre el icono -->
+					<i class="fa-solid fa-arrows-rotate sync-icon"></i>
+					<span class="sync-timer"></span>
+				</div>
+			</div>
+			<button class="control-button" id="reset-button" title="Reset" style="display: none;"><i
+					class="fa-solid fa-arrows-rotate"></i></button>
+			<div id="dps-timer-btns" class="dps-timer-buttons"
+			     style="flex-grow: 1; justify-content: flex-end; display: none;">
+			</div>
+			<button class="control-button" id="zoom-in-button" title="Aumentar tamaño"><i
+					class="fa-solid fa-plus"></i></button>
+			<!-- Botón de mover ventana (drag) -->
+			<div class="drag-indicator" id="drag-indicator" title="Mover ventana">
+				<i class="fa-solid fa-up-down-left-right"></i>
+			</div>
+			<button class="control-button" id="zoom-out-button" title="Reducir tamaño"><i
+					class="fa-solid fa-minus"></i></button>
+			<!-- Botón Advanced/Lite -->
+			<button class="control-button advanced-lite-btn" id="advanced-lite-btn" title="Toggle Advanced/Lite">
+				Advanced
+			</button>
+			<!-- Botón DPS/Healer solo visible en modo Lite -->
+			<button class="control-button advanced-lite-btn" id="lite-dps-healer-btn" style="display:none;">DPS
+			</button>
+			<!-- Botón de bloqueo/desbloqueo -->
+			<button class="control-button" id="lock-button" title="Bloquear posición"
+			        style="width: 32px; height: 32px; font-size: 0.9rem; margin-top: 0;"><i
+					class="fa-solid fa-lock-open"></i></button>
+			<button class="control-button" id="close-button" title="Cerrar ventana"
+			        style="width: 32px; height: 32px; font-size: 0.9rem; margin-top: 0;"><i
+					class="fa-solid fa-xmark"></i></button>
+		</header>
+		<div style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;">
+			<div id="dps-timer"
+			     style="text-align:center;font-size:1.2rem;font-weight:700;margin-top:4px;min-height:28px;color:#e0e0e0;display:none; text-shadow: var(--text-shadow);"></div>
+			<div id="logs-section" style="margin-top:8px;"></div>
+		</div>
+		<div id="loading-indicator">
+			<i class="fa-solid fa-spinner fa-spin"></i>
+		</div>
+		<main id="player-bars-container"
+		      style="margin-top: 40px; border: 1px solid rgba(255, 255, 255, 0.1); display: none;"></main>
+	</div>
 
-    <script src="js/main.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>
